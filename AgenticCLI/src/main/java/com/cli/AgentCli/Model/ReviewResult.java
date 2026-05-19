@@ -1,7 +1,11 @@
 package com.cli.AgentCli.Model;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
+import java.util.List;
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReviewResult {
     private List<String> critical;
     private List<String> warnings;
