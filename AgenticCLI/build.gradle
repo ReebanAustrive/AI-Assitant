@@ -19,6 +19,9 @@ bootRun {
 repositories {
 	mavenCentral()
 }
+bootJar {
+    archiveFileName = 'ccms.jar'
+}
 
 ext {
 	set('springShellVersion', "4.0.2")
