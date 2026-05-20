@@ -5,7 +5,6 @@ New-Item -ItemType Directory -Force -Path "$HOME\.ccms\bin"
 Invoke-WebRequest -Uri "https://github.com/ReebanAustrive/AI-Assitant-Micro-Saas/releases/latest/download/ccms.jar" `
     -OutFile "$HOME\.ccms\bin\ccms.jar"
 
-# Create wrapper batch file
 @"
 @echo off
 java -jar "%USERPROFILE%\.ccms\bin\ccms.jar" %*
