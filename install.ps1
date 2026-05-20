@@ -8,7 +8,7 @@ Invoke-WebRequest -Uri "https://github.com/ReebanAustrive/AI-Assitant-Micro-Saas
 # Create wrapper batch file
 @"
 @echo off
-java -jar %USERPROFILE%\.ccms\bin\ccms.jar %*
+java -jar "%USERPROFILE%\.ccms\bin\ccms.jar" %*
 "@ | Out-File -FilePath "$HOME\.ccms\bin\ccms.bat" -Encoding ASCII
 
 # Add to PATH
