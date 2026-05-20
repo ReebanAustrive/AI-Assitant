@@ -5,6 +5,7 @@ import com.cli.AgentCli.Model.PullRequest;
 import com.cli.AgentCli.Model.ReviewResult;
 import com.cli.AgentCli.Service.GeminiService;
 import com.cli.AgentCli.Service.GitHubService;
+import com.cli.AgentCli.Util.RiskScoreCalculator;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.shell.core.command.annotation.Option;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,11 @@ import org.springframework.stereotype.Component;
 public class ReviewCommands {
     private GitHubService gitHubService;
     private GeminiService geminiService;
-
-    public ReviewCommands(GitHubService gitHubService, GeminiService geminiService) {
+    private RiskScoreCalculator  riskScoreCalculator;
+    public ReviewCommands(GitHubService gitHubService, GeminiService geminiService,  RiskScoreCalculator riskScoreCalculator) {
         this.gitHubService = gitHubService;
         this.geminiService = geminiService;
+        this.riskScoreCalculator = riskScoreCalculator;
     }
     @Command(name = {"ccms", "review"}, description = "Review the defined PR", group = "Review")
     public String review(@Option(longName = "pr",required = true, description = "Compare the PR differences")Integer pr){
@@ -29,6 +31,8 @@ public class ReviewCommands {
         if (result == null){
             return "There was an error while running the command. Try again";
         }
+        double riskScore = riskScoreCalculator.calculateRiskScore(result);
+        result.setRiskScore(riskScore);
 
         return "\nCRITICAL:\n" + result.getCritical() +
                 "\n\nWARNINGS:\n" + result.getWarnings() +

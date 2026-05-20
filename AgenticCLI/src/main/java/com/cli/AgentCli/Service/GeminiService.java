@@ -34,7 +34,15 @@ public class GeminiService {
                 return null;
             }
             String systemPrompt = "You are a code reviewer for this project. \n Architecture:"+ bundle.getArchitectureContent()+"\n"+"Rules: \n"+bundle.getRules().toString()+"\n"+ "Only evaluate against this context. Return json only.";
-            String userPrompt = "Review this PR difference: \n"+ String.join("\n",pr.getDiff())+ "\n Return json with fields: Critical, Warnings, Suggestions and Risk score";
+            String userPrompt = "Review this PR diff:\n" + String.join("\n", pr.getDiff()) +
+                    "\n\nReturn ONLY a valid JSON object with exactly these fields:" +
+                    "\n{" +
+                    "\n  \"critical\": [\"issue 1\", \"issue 2\"]," +
+                    "\n  \"warnings\": [\"warning 1\"]," +
+                    "\n  \"suggestions\": [\"suggestion 1\"]," +
+                    "\n  \"riskScore\": 0.0" +
+                    "\n}" +
+                    "\nDo NOT wrap in markdown. Do NOT use backticks. Return raw JSON only.";
             Map<String, Object> requestBody = Map.of(
                     "contents", List.of(Map.of(
                             "parts", List.of(Map.of("text", systemPrompt + "\n" + userPrompt))

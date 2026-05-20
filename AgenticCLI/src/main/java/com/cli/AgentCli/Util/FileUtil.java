@@ -10,12 +10,9 @@ public class FileUtil {
     public String readFile(String path){
         try {
             String normalizedPath = path.replace("\\", "/");
-            if (normalizedPath.length() > 1 && normalizedPath.charAt(1) != ':') {
-                normalizedPath = normalizedPath.charAt(0) + ":/" + normalizedPath.substring(1);
-            }
             return Files.readString(Path.of(normalizedPath));
         } catch (Exception e) {
-            System.err.println("FileUtil ERROR: " + e.getClass().getName() + " - " + e.getMessage());
+            System.err.println("FileUtil ERROR: " + e.getMessage());
             return null;
         }
     }
